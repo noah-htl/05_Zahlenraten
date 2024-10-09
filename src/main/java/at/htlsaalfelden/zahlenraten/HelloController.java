@@ -14,13 +14,44 @@ import java.util.ResourceBundle;
 public class HelloController implements Initializable {
     @FXML
     public TextField numberInput;
-
     @FXML
-    private Label welcomeText;
+    public Label response;
+    @FXML
+    public Label versuche;
+
+
+    private ZahlenRaten zahlenRaten;
+
 
     @FXML
     protected void onHelloButtonClick() {
-        welcomeText.setText(numberInput.getText());
+        if(!zahlenRaten.canRun()) {
+            return;
+        }
+
+        int response = zahlenRaten.checkZahl(Integer.parseInt(numberInput.getText()));
+        if(response == 0) {
+            this.response.setText(String.format("Korrekt, in %s Versuchen gelöst", zahlenRaten.getUsedVersuche()));
+        }
+
+        if(response == 1) {
+            this.response.setText("Zu groß");
+        }
+
+        if(response == -1) {
+            this.response.setText("Zu klein");
+        }
+
+        versuche.setText(String.format("%s Versuche verbleibend", zahlenRaten.getVersuche()));
+
+        if(!zahlenRaten.canRun()) {
+            numberInput.setEditable(false);
+            numberInput.setText("");
+
+            versuche.setText(String.format("Die Zahl war: %d", zahlenRaten.getZahl()));
+        } else {
+            numberInput.requestFocus();
+        }
     }
 
     public void onKeyTyped(KeyEvent keyEvent) { // Keine Buchstaben erlauben
@@ -36,6 +67,7 @@ public class HelloController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        zahlenRaten = new ZahlenRaten();
+        versuche.setText(String.format("Versuche: %s", zahlenRaten.getVersuche()));
     }
 }
