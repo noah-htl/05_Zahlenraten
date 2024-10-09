@@ -1,10 +1,15 @@
 package at.htlsaalfelden.zahlenraten;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 import java.net.URL;
 import java.util.Objects;
@@ -18,6 +23,10 @@ public class HelloController implements Initializable {
     public Label response;
     @FXML
     public Label versuche;
+    @FXML
+    public Slider min;
+    @FXML
+    public Slider max;
 
 
     private ZahlenRaten zahlenRaten;
@@ -69,5 +78,21 @@ public class HelloController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         zahlenRaten = new ZahlenRaten();
         versuche.setText(String.format("Versuche: %s", zahlenRaten.getVersuche()));
+    }
+
+    public void onGenerate(ActionEvent actionEvent) {
+        if((int) min.getValue() >= (int) max.getValue()) {
+            if(actionEvent.getTarget() instanceof Button b) {
+                b.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(1))));
+            }
+            return;
+        }
+
+        if(actionEvent.getTarget() instanceof Button b) {
+            b.setBorder(null);
+        }
+
+        zahlenRaten.generate((int) min.getValue(), (int) max.getValue());
+        numberInput.setPromptText(String.format("%d-%d", (int) min.getValue(), (int) max.getValue()));
     }
 }

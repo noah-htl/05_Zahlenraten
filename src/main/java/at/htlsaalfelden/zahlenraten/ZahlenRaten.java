@@ -7,11 +7,17 @@ public class ZahlenRaten {
     private int versuche;
     private int gesamtVersuche = 5;
     private boolean hasWon;
+    private boolean hasGenerated;
 
     public ZahlenRaten() {
-        zahl = new Random().nextInt(1, 100);
+        hasGenerated = false;
+    }
+
+    public void generate(int min, int max) {
+        zahl = new Random().nextInt(min, max);
         versuche = 0;
         hasWon = false;
+        hasGenerated = true;
     }
 
     public int getZahl() {

@@ -40,4 +40,5 @@
          <Slider fx:id="min" />
       </children>
    </HBox>
+   <Button mnemonicParsing="false" onAction="#onGenerate" text="Play" />
 </VBox>
