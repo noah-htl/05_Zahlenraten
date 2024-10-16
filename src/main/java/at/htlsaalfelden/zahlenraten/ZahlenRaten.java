@@ -9,12 +9,17 @@ public class ZahlenRaten {
     private boolean hasWon;
     private boolean hasGenerated;
 
+    private int min;
+    private int max;
+
     public ZahlenRaten() {
         hasGenerated = false;
     }
 
     public void generate(int min, int max) {
         zahl = new Random().nextInt(min, max);
+        this.min = min;
+        this.max = max;
         versuche = 0;
         hasWon = false;
         hasGenerated = true;
